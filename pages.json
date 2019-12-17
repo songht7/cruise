@@ -1,0 +1,22 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "世界之极卡",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "世界之极卡",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
