@@ -51,7 +51,7 @@
 }
 
 .pages {
-	padding: 20upx 3.6%;
+	padding: 0 3.6%;
 }
 
 .block {
@@ -374,7 +374,6 @@ view {
 
 .page-main {
 	position: relative;
-	padding-bottom: 120upx;
 	min-height: 100%;
 }
 

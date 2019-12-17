@@ -2,19 +2,23 @@
 	<view class="content pages">
 		<view class="page-main">
 			<block v-if="pageis=='bin'">
-				<view class="bin-box">
+				<view class="bin-box aniShow">
 					<view class="form-box bin-form">
-						<view class="f-row f-row-title">您的Bin码</view>
+						<view class="f-row f-row-title">请输入您的Bin码</view>
 						<view class="f-row f-row-ipt">
-							<input :class="['cruise-input',errTarget=='binCode'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['binCode']"
+							<input :class="['cruise-input','bin-code-ipt',errTarget=='binCode'?'err-ipt':'']" :style="{'opacity':binInputHide}"
+							 type="text" @focus="removeErr" :maxlength="list.length" @input="onInput($event)" @blur="onBlur" v-model="formData['binCode']"
 							 placeholder="您世界之极卡前6位" />
+							<view class="f-row-code">
+								<text v-for="(o, i) in list" :key="i" :class="{'focus': o.fs}" v-text="o.val" /></text>
+							</view>
 						</view>
-					</view>
-					<view class="btn-box">
-						<view v-show="errTip" class="errTip">
-							{{errTip}}
+						<view class="f-row btn-box">
+							<view v-show="errTip" class="errTip">
+								{{errTip}}
+							</view>
+							<view class="submit-btn" @click="getDatas('verify')">验证</view>
 						</view>
-						<view class="submit-btn" @click="getDatas('verify')">验证</view>
 					</view>
 				</view>
 			</block>
@@ -41,25 +45,25 @@
 						</view>
 						<view class="form-box user-form">
 							<view class="f-row f-row-ipt">
-								<input :class="['cruise-input',errTarget=='name'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['name']"
-								 placeholder="姓名" />
+								<input :class="['cruise-input',errTarget=='name'?'err-ipt':'']" type="text" @focus="removeErr" @blur="onBlur"
+								 v-model="formData['name']" placeholder="姓名" />
 							</view>
 							<view class="f-row f-row-ipt">
-								<input :class="['cruise-input',errTarget=='phone'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['phone']"
-								 placeholder="手机号" />
+								<input :class="['cruise-input',errTarget=='phone'?'err-ipt':'']" type="text" @focus="removeErr" @blur="onBlur"
+								 v-model="formData['phone']" placeholder="手机号" />
 							</view>
-							<view class="f-row f-row-ipt code-ipt">
-								<input :class="['cruise-input',errTarget=='code'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['code']"
-								 placeholder="验证码" />
+							<view class="f-row f-row-ipt phone-code-ipt">
+								<input :class="['cruise-input','phone-code-input',errTarget=='code'?'err-ipt':'']" type="text" @focus="removeErr"
+								 @blur="onBlur" v-model="formData['code']" placeholder="验证码" />
 								<view :class="['phone-code',timer?'countdown':'']" @click="getPhoneCode">
 									{{timer?seconds+'S 再次获取':'获取验证码'}}</view>
 							</view>
-						</view>
-						<view class="btn-box">
-							<view v-show="errTip" class="errTip">
-								{{errTip}}
+							<view class="f-row btn-box">
+								<view v-show="errTip" class="errTip">
+									{{errTip}}
+								</view>
+								<view class="submit-btn" @click="getDatas('user')">点击领取</view>
 							</view>
-							<view class="submit-btn" @click="getDatas('user')">点击领取</view>
 						</view>
 					</block>
 					<block v-else>
@@ -99,6 +103,32 @@
 				seconds: 60, //倒计时时间
 				timer: null, //倒计时
 				poptype: "", //用户知晓弹窗状态
+				binInputHide: 1, //bin input opacity:0/1
+				list: [{
+						val: '',
+						fs: true
+					},
+					{
+						val: '',
+						fs: false
+					},
+					{
+						val: '',
+						fs: false
+					},
+					{
+						val: '',
+						fs: false
+					},
+					{
+						val: '',
+						fs: false
+					},
+					{
+						val: '',
+						fs: false
+					}
+				],
 				formData: {
 					binCode: '',
 					name: '',
@@ -141,6 +171,20 @@
 		},
 		computed: {},
 		methods: {
+			onInput(e) {
+				var that = this;
+				const l = e.target.value.length;
+				for (let i = 0; i < that.list.length; i++) {
+					that.list[i].fs = false;
+					that.list[i].val = e.target.value[i];
+				};
+				if (l) {
+					that.list[l - 1].fs = true;
+					that.binInputHide = 0;
+				} else {
+					that.binInputHide = 1;
+				}
+			},
 			getDatas(type) {
 				var that = this;
 				var _formData = that.formData;
@@ -182,7 +226,11 @@
 				if (checkRes) {
 					if (type == 'verify') {
 						if (_formData.binCode != that.checkBin) {
-							that.setErr('binCode', 'Bin码错误，请再次尝试');
+							uni.showToast({
+								title: 'Bin码错误，请再次尝试',
+								icon: "none"
+							});
+							//that.setErr('binCode', 'Bin码错误，请再次尝试');
 						} else {
 							that.pageis = 'ticket';
 						}
@@ -203,7 +251,11 @@
 					// }
 					// that.$store.dispatch("getData", data)
 				} else {
-					that.setErr(graceChecker.target, graceChecker.error);
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
+					//that.setErr(graceChecker.target, graceChecker.error);
 				}
 			},
 			popSwitch(type) {
@@ -236,6 +288,12 @@
 				that.errTarget = tag;
 				that.errTip = err;
 			},
+			onBlur() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				})
+			},
 			removeErr(val) {
 				var that = this;
 				that.errTarget = "";
@@ -247,4 +305,5 @@
 
 <style>
 	@import "./index.css";
+	@import "../../common/animate.css";
 </style>

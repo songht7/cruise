@@ -5,6 +5,30 @@ page {
 	color: #4E4E4E;
 }
 
+@keyframes aniShow {
+	0% {
+		transform: scale(0);
+	}
+
+	50% {
+		transform: scale(1.1);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.aniShow {
+	animation: aniShow .6s ease-in-out forwards;
+}
+
+.content {
+	height: 100%;
+	background: url(../../static/bg.jpg) no-repeat 50% 100%;
+	background-size: cover;
+}
+
 .page-main {
 	width: 96%;
 	padding: 0 2%;
@@ -18,12 +42,14 @@ page {
 	width: 100%;
 	border-radius: 15upx;
 	overflow: hidden;
+	box-shadow: 0 0 20upx 15upx #b0cdf2;
 }
 
 .f-row {
 	background: #FFFFFF;
 	color: #666666;
-	border-bottom: 1upx solid #F4F4F4;
+	position: relative;
+	/* border-bottom: 1upx solid #F4F4F4; */
 }
 
 .f-row:last-child {
@@ -32,17 +58,22 @@ page {
 
 .f-row-title {
 	text-align: center;
-	font-size: 32upx;
+	font-size: 58upx;
+	color: #354e70;
 	line-height: 2;
-	padding: 15upx;
+	padding: 30upx 15upx;
 }
 
-.code-ipt {
+.phone-code-ipt {
 	display: flex;
 	flex-direction: row;
 	align-content: center;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.phone-code-input {
+	width: 50%;
 }
 
 .phone-code {
@@ -59,7 +90,47 @@ page {
 	line-height: 1.4;
 	padding: 30upx;
 	text-align: center;
-	font-size: 36upx;
+	font-size: 38upx;
+}
+
+.bin-code-ipt {
+	font-size: 32upx;
+	color: #FFFFFF;
+	background: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.f-row-code {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 80%;
+	padding: 0 10%;
+}
+
+.f-row-code text {
+	width: 50upx;
+	height: 100upx;
+	line-height: 1.4;
+	border: none;
+	border-bottom: 2upx solid #b2bfbd;
+	text-align: center;
+	color: #4c4e60;
+	font-size: 44upx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.f-row-code text.focus {
+	border-color: #4c79fa;
 }
 
 .err-ipt {
@@ -90,6 +161,7 @@ page {
 .btn-box {
 	width: 100%;
 	position: relative;
+	padding: 80upx 0 50upx;
 }
 
 .errTip {
@@ -107,12 +179,13 @@ page {
 }
 
 .submit-btn {
-	width: 100%;
-	background: #717171;
+	width: 90%;
+	margin: 0 auto;
+	background: #354e70;
 	color: #FFFFFF;
 	font-size: 30upx;
 	line-height: 2;
-	padding: 15upx 0;
+	padding: 20upx 0;
 	text-align: center;
 	border-radius: 10upx;
 }

@@ -11,6 +11,17 @@
 					}
 				}
 			}
+		},{
+			"path": "pages/index/index2",
+			"style": {
+				"navigationBarTitleText": "验证码",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
 		}
 	],
 	"globalStyle": {
