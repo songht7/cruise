@@ -10,6 +10,10 @@ page {
 	padding: 0 2%;
 }
 
+.padding-big {
+	padding: 200upx 0 0;
+}
+
 .form-box {
 	width: 100%;
 	border-radius: 15upx;
@@ -113,6 +117,11 @@ page {
 	border-radius: 10upx;
 }
 
+.btn-disabled {
+	background: #B3B3B3;
+}
+
+
 .ticket-title {
 	color: #5D5D5D;
 	display: flex;
@@ -121,7 +130,7 @@ page {
 	align-content: center;
 	align-items: center;
 	line-height: 1.2;
-	padding: 40upx 30upx;
+	padding: 90upx 30upx 40upx;
 }
 
 .tk-title {

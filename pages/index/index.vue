@@ -29,37 +29,50 @@
 						<view class="tk-block ticket-price">200 €</view>
 						<view class="tk-block ticket-info">游轮消费抵用券</view>
 					</view>
-					<view class="submit-btn" @click="pageSwitch('agreement')">点击领取</view>
+					<view :class="['submit-btn',getState?'btn-disabled':'']" @click="popSwitch('agreement')">{{getState?'已领取':'点击领取'}}</view>
 				</view>
 			</block>
 			<block v-if="pageis=='user'">
 				<view class="user-box">
-					<view class="ticket-title">
-						<view class="tk-title">请输入您的个人信息</view>
-						<view class="tk-sub-title">以便将抵用券匹配到您的账户</view>
-					</view>
-					<view class="form-box user-form">
-						<view class="f-row f-row-ipt">
-							<input :class="['cruise-input',errTarget=='name'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['name']"
-							 placeholder="姓名" />
+					<block v-if="!getState">
+						<view class="ticket-title">
+							<view class="tk-title">请输入您的个人信息</view>
+							<view class="tk-sub-title">以便将抵用券匹配到您的账户</view>
 						</view>
-						<view class="f-row f-row-ipt">
-							<input :class="['cruise-input',errTarget=='phone'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['phone']"
-							 placeholder="手机号" />
+						<view class="form-box user-form">
+							<view class="f-row f-row-ipt">
+								<input :class="['cruise-input',errTarget=='name'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['name']"
+								 placeholder="姓名" />
+							</view>
+							<view class="f-row f-row-ipt">
+								<input :class="['cruise-input',errTarget=='phone'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['phone']"
+								 placeholder="手机号" />
+							</view>
+							<view class="f-row f-row-ipt code-ipt">
+								<input :class="['cruise-input',errTarget=='code'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['code']"
+								 placeholder="验证码" />
+								<view :class="['phone-code',timer?'countdown':'']" @click="getPhoneCode">
+									{{timer?seconds+'S 再次获取':'获取验证码'}}</view>
+							</view>
 						</view>
-						<view class="f-row f-row-ipt code-ipt">
-							<input :class="['cruise-input',errTarget=='code'?'err-ipt':'']" type="text" @focus="removeErr" v-model="formData['code']"
-							 placeholder="验证码" />
-							<view :class="['phone-code',timer?'countdown':'']" @click="getPhoneCode">
-								{{timer?seconds+'S 再次获取':'获取验证码'}}</view>
+						<view class="btn-box">
+							<view v-show="errTip" class="errTip">
+								{{errTip}}
+							</view>
+							<view class="submit-btn" @click="getDatas('user')">点击领取</view>
 						</view>
-					</view>
-					<view class="btn-box">
-						<view v-show="errTip" class="errTip">
-							{{errTip}}
+					</block>
+					<block v-else>
+						<view class="padding-big">
+							<view class="ticket-title">
+								<view class="tk-title">恭喜您已领取成功</view>
+								<view class="tk-sub-title">可在“微信-我的卡券”中查看</view>
+							</view>
+							<view class="btn-box">
+								<view class="submit-btn" @click="pageChange('ticket')">返回</view>
+							</view>
 						</view>
-						<view class="submit-btn" @click="getDatas('user')">点击领取</view>
-					</view>
+					</block>
 				</view>
 			</block>
 		</view>
@@ -67,8 +80,8 @@
 			<view class="agreement-box">
 				<agreement></agreement>
 				<view class="popup-btns">
-					<view class="btns btn-agre btn-cancel" @click="pageSwitch('agreement-cancel')">不知道</view>
-					<view class="btns btn-agre btn-confirm" @click="pageSwitch('agreement-confirm')">已知晓</view>
+					<view class="btns btn-agre btn-cancel" @click="pageChange('bin')">不知道</view>
+					<view class="btns btn-agre btn-confirm" @click="pageChange('user')">已知晓</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -81,24 +94,28 @@
 	export default {
 		data() {
 			return {
-				pageis: 'bin',
-				seconds: 60,
-				timer: null,
-				poptype: "",
+				pageis: 'bin', //页面状态 bin：Bin码验证 ticket：卡券介绍 user：用户留资
+				loading: false,
+				seconds: 60, //倒计时时间
+				timer: null, //倒计时
+				poptype: "", //用户知晓弹窗状态
 				formData: {
 					binCode: '',
 					name: '',
 					phone: '',
 					code: ''
 				},
+				tempData: {}, //用于清空数据
 				errTarget: '',
 				errTip: '',
-				checkBin: '123456' //测试用bin码验证
+				checkBin: '123456', //测试用bin码验证
+				getState: false //领取卡券状态
 			}
 		},
 		onLoad(option) {
 			console.log("onLoad");
 			var that = this;
+			that.tempData = that.formData;
 			uni.setNavigationBarTitle({
 				title: that.$store.state.appName
 			})
@@ -163,10 +180,18 @@
 
 				var checkRes = graceChecker.check(_formData, rule);
 				if (checkRes) {
-					if (_formData.binCode != that.checkBin) {
-						that.setErr('binCode', 'Bin码错误，请再次尝试');
-					} else {
-						that.pageis = 'ticket';
+					if (type == 'verify') {
+						if (_formData.binCode != that.checkBin) {
+							that.setErr('binCode', 'Bin码错误，请再次尝试');
+						} else {
+							that.pageis = 'ticket';
+						}
+					} else if (type == 'user') {
+						if (that.getState) {
+							return
+						}
+						that.getState = true;
+						that.formData = that.tempData;
 					}
 					console.log(_formData)
 					// let data = {
@@ -181,22 +206,16 @@
 					that.setErr(graceChecker.target, graceChecker.error);
 				}
 			},
-			pageSwitch(type) {
+			popSwitch(type) {
 				var that = this;
-				console.log(type)
-				switch (type) {
-					case 'agreement-cancel':
-						that.pageis = 'bin';
-						that.poptype = '';
-						break;
-					case 'agreement-confirm':
-						that.pageis = 'user';
-						that.poptype = '';
-						break;
-					default:
-						that.poptype = type;
-						break;
+				if (!that.getState) {
+					that.poptype = type;
 				}
+			},
+			pageChange(type) {
+				var that = this;
+				that.pageis = type;
+				that.poptype = '';
 			},
 			getPhoneCode() {
 				var that = this;
