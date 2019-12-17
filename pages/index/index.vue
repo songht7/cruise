@@ -204,9 +204,9 @@
 					console.log(that.seconds);
 					that.timer = setInterval(() => {
 						that.seconds--
-						if (that.seconds < 0) {
+						if (that.seconds <= 0) {
 							that.seconds = 60;
-							clearInterval(that.timer)
+							that.timer = null;
 							return
 						}
 					}, 1000)
