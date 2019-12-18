@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+var jweixin = require('jweixin-module')
 import common from "../common.js"
 Vue.use(Vuex)
 
@@ -19,6 +20,8 @@ const store = new Vuex.Store({
 		data: {},
 		interface: common.Interface,
 		systemInfo: {},
+		wxInfo: common.Interface.wxInfo,
+		cardList: [], //卡券列表
 		isWeixin: false
 	},
 	mutations: {
@@ -132,81 +135,46 @@ const store = new Vuex.Store({
 			let _isWeixin = !!/micromessenger/i.test(navigator.userAgent.toLowerCase());
 			ctx.state.isWeixin = _isWeixin;
 		},
-		wxXCXAuth(ctx, type) {
-			var checkType = type;
-			var _wxType = ctx.state.wxType == "mp" ? 'getWeChatInfoMP' : 'getWeChatInfo';
-			var _wxini = checkType == undefined && ctx.state.openid == '' ? true : false;
-			//console.log("_wxini:", _wxini, "   checkType:", checkType)
-			if (_wxini || checkType == "reCheack") {
-				uni.getProvider({
-					service: 'oauth',
-					success: function(res) {
-						//console.log("getProvider:", res)
-						if (~res.provider.indexOf('weixin')) {
-							uni.login({
-								provider: 'weixin', //登录服务提供商
-								//scopes: 'auth_user', //授权类型，默认 auth_base。支持 auth_base（静默授权）/ auth_user（主动授权） / auth_zhima（芝麻信用）
-								success: function(loginRes) {
-									//console.log("wx-login-res:", loginRes)
-									var _code = loginRes.code;
-									if (_code) {
-										var _url = ctx.state.interface.apiurl + ctx.state.interface.addr[_wxType] + '?code=' + _code;
-										//console.log("getWeChatInfo-url:", _url)
-										uni.request({
-											url: _url,
-											method: "GET",
-											header: {},
-											success(res) {
-												//console.log("getWeChatInfo-success:", res)
-												if (res.data.success && res.data.data.openid) {
-													var _openid = res.data.data.openid;
-													var _token = res.data.data.token ? res.data.data.token : '';
-													var deathline = res.data.data.deathline ? res.data.data.deathline : '';
-													if (_token && deathline) {
-														uni.getStorage({
-															key: "user",
-															success(ress) {
-																let ress_data = ress.data;
-																if (ress_data.userType == "3") {
-																	console.log("-----wxXCXAuth:reset-----")
-																	ress_data["token"] = _token;
-																	ress_data["deathline"] = deathline;
-																	ress_data["openid"] = _openid;
-																	uni.setStorage({
-																		key: "user",
-																		data: ress_data,
-																		success() {
-																			if (checkType == 'reCheack') {
-																				ctx.dispatch("cheack_user");
-																			}
-																		}
-																	});
-																}
-															},
-															fail() {}
-														})
-													}
-													uni.setStorage({
-														key: "openid",
-														data: _openid
-													});
-													ctx.state.openid = _openid;
-												}
-											},
-											fail(err) {
-												console.log("getWeChatInfo-err:", err)
-											},
-											complete() {}
-										})
-									}
-								},
-								fail(f) {},
-								complete() {}
-							});
-						}
-					}
-				});
+		wxAuth(ctx, type) {
+			var funTicket = function(res) {
+				console.log("=======getTicket======")
+				console.log(res)
+				var _config = {
+					debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					appId: ctx.state.interface.wxInfo.AppID, // 必填，公众号的唯一标识
+					timestamp: '', // 必填，生成签名的时间戳
+					nonceStr: '', // 必填，生成签名的随机串
+					signature: '', // 必填，签名
+					jsApiList: [
+						'onMenuShareAppMessage',
+						'addCard',
+						'chooseCard',
+						'openCard'
+					] // 必填，需要使用的JS接口列表
+				}
+				jweixin.config(_config);
 			}
+		},
+		getWXCard(ctx){
+			jweixin.ready(function() {
+				// 批量添加卡券接口
+				jweixin.addCard({
+				  cardList: [{
+				    cardId: '',
+				    cardExt: ''
+				  }], // 需要添加的卡券列表
+				  success: function (res) {
+				    var cardList = res.cardList; // 添加的卡券列表信息
+				  }
+				});
+				// 查看微信卡包中的卡券接口
+				jweixin.openCard({
+				  cardList: [{
+				    cardId: '',
+				    code: ''
+				  }]// 需要打开的卡券列表
+				});
+			});
 		},
 		getSystemInfo(ctx) {
 			var systemInfo = {}

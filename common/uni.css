@@ -197,19 +197,42 @@
 .pop-main {
 	height: 600upx;
 	overflow-y: auto;
-	padding: 10upx 50upx 30px;
+	padding: 10upx 40upx 30px;
 }
 
 .pop-head {
 	position: relative;
+	line-height: 2;
 	/* border-bottom: 1px solid #ECECEC; */
 }
 
 .pop-title {
 	text-align: center;
 	font-size: 36upx;
-	color: #535353;
-	line-height: 2.4;
+	color: #354e70;
+	line-height: 3;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+	width: 100%;
+}
+
+.pop-title:before {
+	content: " ";
+	background: #354e70;
+	width: 100upx;
+	height: 4upx;
+	border-radius: 50% 0 0 50%;
+}
+
+.pop-title:after {
+	content: " ";
+	background: #354e70;
+	width: 100upx;
+	height: 4upx;
+	border-radius: 0 50% 50% 0;
 }
 
 .pop-close {
@@ -226,11 +249,6 @@
 	width: 90%;
 	left: 5%;
 }
-
-.popup-btns {
-	border-top: 1px solid #BEBEBE;
-}
-
 
 /* 底部按钮 - 返回，开始测试... */
 .fix-button {

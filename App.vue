@@ -7,7 +7,7 @@
 		},
 		onShow: function() {
 			console.log('App Show')
-			this.$store.dispatch('wxXCXAuth');
+			this.$store.dispatch('wxAuth');
 		},
 		onHide: function() {
 			//console.log('App Hide')

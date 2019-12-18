@@ -34,6 +34,7 @@ export default {
 		"domain": api[lks]["domain"],
 		"appName": api[lks]["appName"],
 		"phoneNumber": api[lks]["phoneNumber"],
+		"wxConfig": api[lks]["wx"],
 		"addr": {
 			"getWeChatInfo": "/v4/ApiWeChat-getWeChatInfo.htm", //获取微信信息-公众号?code=1
 			"getWeChatInfoMP": "/v4/ApiWeChatMinProgram-getWeChatInfo.htm", //获取微信信息-小程序?code=1

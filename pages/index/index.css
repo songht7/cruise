@@ -2,7 +2,7 @@ page {
 	min-width: 100%;
 	min-height: 100%;
 	background: #E6E6E6;
-	color: #4E4E4E;
+	color: #354e70;
 }
 
 @keyframes aniShow {
@@ -23,8 +23,23 @@ page {
 	animation: aniShow .6s ease-in-out forwards;
 }
 
+@keyframes opShow {
+	0% {
+		opacity: 0.1;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+.opShow {
+	animation: opShow .6s ease-in-out forwards;
+}
+
+
 .content {
-	height: 100%;
+	min-height: 100%;
 	background: url(../../static/bg.jpg) no-repeat 50% 100%;
 	background-size: cover;
 }
@@ -43,6 +58,8 @@ page {
 	border-radius: 15upx;
 	overflow: hidden;
 	box-shadow: 0 0 20upx 15upx #b0cdf2;
+	background: #FFFFFF;
+	position: relative;
 }
 
 .f-row {
@@ -74,15 +91,26 @@ page {
 
 .phone-code-input {
 	width: 50%;
+	position: relative;
 }
 
-.phone-code {
+.phone-code-input:after {
+	content: " ";
+	background: #354e70;
+	width: 1px;
+	height: 70%;
+	right: 0;
+	position: absolute;
+	top: 15%;
+}
+
+.user-form .cruise-input.phone-code {
 	text-align: center;
-	color: #007AFF;
+	color: #354e70;
 	flex: 1;
 }
 
-.countdown {
+.user-form .cruise-input.phone-code.countdown {
 	color: #BDBDBD;
 }
 
@@ -105,6 +133,15 @@ page {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+}
+
+.user-input {
+	padding: 0 30upx;
+}
+
+.user-input .cruise-input {
+	padding: 30upx 0;
+	border-bottom: 1px solid #354e70;
 }
 
 .f-row-code {
@@ -130,7 +167,7 @@ page {
 }
 
 .f-row-code text.focus {
-	border-color: #4c79fa;
+	border-color: #354e70;
 }
 
 .err-ipt {
@@ -155,6 +192,7 @@ page {
 
 .user-form .cruise-input {
 	text-align: left;
+	font-size: 32upx;
 }
 
 
@@ -169,13 +207,16 @@ page {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	height: 100%;
-	color: #DC3131;
+	width: 80%;
+	height: 100upx;
+	color: #FFFFFF;
 	font-size: 32upx;
 	position: absolute;
-	top: -100%;
-	left: 0;
+	z-index: 5;
+	top: 40%;
+	left: 10%;
+	border-radius: 10upx;
+	background: rgba(0, 0, 0, .7);
 }
 
 .submit-btn {
@@ -183,20 +224,31 @@ page {
 	margin: 0 auto;
 	background: #354e70;
 	color: #FFFFFF;
-	font-size: 30upx;
+	font-size: 32upx;
+	letter-spacing: 4upx;
 	line-height: 2;
 	padding: 20upx 0;
 	text-align: center;
 	border-radius: 10upx;
 }
 
+.btn-big {
+	width: 100%;
+}
+
 .btn-disabled {
 	background: #B3B3B3;
 }
 
+.ticket-box {
+	padding-bottom: 100upx;
+}
+
+.ticket-main {
+	padding-bottom: 100upx;
+}
 
 .ticket-title {
-	color: #5D5D5D;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -207,24 +259,52 @@ page {
 }
 
 .tk-title {
-	font-size: 46upx;
+	font-size: 60upx;
+	line-height: 1.4;
 }
 
 .tk-sub-title {
-	font-size: 28upx;
+	font-size: 38upx;
+	line-height: 1.4;
+	position: relative;
+	padding: 40upx 0;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+	width: 100%;
+}
+
+.tk-sub-title:before {
+	content: " ";
+	background: #354e70;
+	width: 100upx;
+	height: 4upx;
+	border-radius: 50% 0 0 50%;
+}
+
+.tk-sub-title:after {
+	content: " ";
+	background: #354e70;
+	width: 100upx;
+	height: 4upx;
+	border-radius: 0 50% 50% 0;
 }
 
 .ticket-model {
 	width: 100%;
 	margin: 0 auto 80upx;
-	background: #FFFFFF;
-	border: 3upx solid #cac7c7;
 	display: flex;
 	flex-direction: row;
 	align-content: center;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0 0 40upx 10upx #C8C7CC;
+}
+
+.card-img {
+	display: block;
+	width: 100%;
 }
 
 .tk-block {
@@ -257,25 +337,26 @@ page {
 
 .popup-btns {
 	display: flex;
+	justify-content: space-around;
 	flex-direction: row;
+	align-content: center;
+	align-items: center;
+	padding: 15upx 40upx 30upx;
 }
 
 .btn-agre {
-	width: 50%;
-	color: #3C3C3C;
+	width: 45%;
+	height: 80upx;
+	padding: 10upx 0;
+	color: #FFFFFF;
 	font-size: 28upx;
+	background: #354e70;
+	border: 2upx solid #354e70;
+	border-radius: 20upx;
+	overflow: hidden;
 }
 
 .btn-cancel {
-	color: #BCBCBC;
-	position: relative;
-}
-
-.btn-cancel:after {
-	content: " ";
-	background: #BEBEBE;
-	width: 1px;
-	height: 100%;
-	position: absolute;
-	right: 0;
+	background: #FFFFFF;
+	color: #354e70;
 }
