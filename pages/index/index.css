@@ -107,6 +107,7 @@ page {
 }
 
 .user-form .cruise-input.phone-code {
+	text-indent: 0;
 	text-align: center;
 	color: #354e70;
 	flex: 1;
