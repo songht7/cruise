@@ -7,7 +7,7 @@
 var api = {
 	"formal": {
 		"interface": "https://api.bdmartech.com", //接口
-		"domain": "http://m.bdmartech.com",
+		"domain": "http://ponant.cn-siit.com",
 		"appName": "游轮之极卡",
 		"phoneNumber": "400400400",
 		"wx": {
@@ -17,7 +17,7 @@ var api = {
 	},
 	"dev": {
 		"interface": "https://api-test.wsshanghai.com", //接口
-		"domain": "http://train.wsshanghai.com",
+		"domain": "http://ponant.cn-siit.com",
 		"appName": "游轮之极卡",
 		"phoneNumber": "400400400",
 		"wx": {

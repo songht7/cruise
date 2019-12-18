@@ -80,7 +80,7 @@
 						<view class="padding-big">
 							<view class="ticket-title">
 								<view class="tk-title">恭喜您已领取成功</view>
-								<view class="tk-sub-title">可在“微信-我的卡券”中查看</view>
+								<!-- <view class="tk-sub-title">可在“微信-我的卡券”中查看</view> -->
 							</view>
 							<view class="btn-box">
 								<view class="submit-btn" @click="pageChange('ticket')">返回</view>

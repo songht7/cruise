@@ -135,6 +135,46 @@ const store = new Vuex.Store({
 			let _isWeixin = !!/micromessenger/i.test(navigator.userAgent.toLowerCase());
 			ctx.state.isWeixin = _isWeixin;
 		},
+		getWXCode(ctx) {
+			var _this = this,
+				appid = ctx.state.interface.wxInfo.AppID;
+			var test_openid = Interface.wx.test_openid;
+			if (!_this.isWeixin() && test_openid == "") {
+				_this.goHomePage();
+				return
+			}
+			var _uWXInfo = "";
+			uni.getStorage({
+				key: 'uWXInfo',
+				success: function(res) {
+					_uWXInfo = res.data;
+				},
+				complete: function() {
+					// console.log("=====getStorage-_uWXInfo======")
+					// console.log(_uWXInfo)
+					if (_uWXInfo && _uWXInfo.openid) {
+						var __openid = _uWXInfo.openid;
+					} else {
+						let redirect_uri = redirect_uri ? redirect_uri : Interface.domain;
+						let REDIRECT_URI = encodeURIComponent(redirect_uri), //授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
+							scope = "snsapi_userinfo", //snsapi_base，snsapi_userinfo （弹出授权页面，获取更多信息）
+							state = "STATE"; //重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+						var _url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' +
+							REDIRECT_URI +
+							'&response_type=code&scope=' + scope + '&state=' + state + '#wechat_redirect';
+						let code = _this.queryString('code');
+						//console.log(_url)
+						if (code) {
+							//console.log(code)
+							_this.userLogin(code);
+						} else {
+							window.location.href = _url;
+						}
+					}
+				}
+			});
+
+		},
 		wxAuth(ctx, type) {
 			var funTicket = function(res) {
 				console.log("=======getTicket======")
@@ -155,24 +195,24 @@ const store = new Vuex.Store({
 				jweixin.config(_config);
 			}
 		},
-		getWXCard(ctx){
+		getWXCard(ctx) {
 			jweixin.ready(function() {
 				// 批量添加卡券接口
 				jweixin.addCard({
-				  cardList: [{
-				    cardId: '',
-				    cardExt: ''
-				  }], // 需要添加的卡券列表
-				  success: function (res) {
-				    var cardList = res.cardList; // 添加的卡券列表信息
-				  }
+					cardList: [{
+						cardId: '',
+						cardExt: ''
+					}], // 需要添加的卡券列表
+					success: function(res) {
+						var cardList = res.cardList; // 添加的卡券列表信息
+					}
 				});
 				// 查看微信卡包中的卡券接口
 				jweixin.openCard({
-				  cardList: [{
-				    cardId: '',
-				    code: ''
-				  }]// 需要打开的卡券列表
+					cardList: [{
+						cardId: '',
+						code: ''
+					}] // 需要打开的卡券列表
 				});
 			});
 		},
