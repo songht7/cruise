@@ -159,11 +159,11 @@ const store = new Vuex.Store({
 						var _url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' +
 							REDIRECT_URI +
 							'&response_type=code&scope=' + scope + '&state=' + state + '#wechat_redirect';
-						let code = _this.queryString('code');
+						let code = ctx.dispatch("queryString", 'code');
 						//console.log(_url)
 						if (code) {
 							//console.log(code)
-							_this.userLogin(code);
+							ctx.dispatch("userLogin", code);
 						} else {
 							window.location.href = _url;
 						}
@@ -171,6 +171,17 @@ const store = new Vuex.Store({
 				}
 			});
 
+		},
+		queryString(ctx, value) {
+			const reg = new RegExp(`(^|&)${value}=([^&]*)(&|$)`, 'i')
+			const r = window && window.location.search.substr(1).match(reg)
+			if (r != null) {
+				return unescape(r[2])
+			}
+			return null
+		},
+		userLogin(ctx, data){
+			
 		},
 		wxAuth(ctx, type) {
 			var funTicket = function(res) {
