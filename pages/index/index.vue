@@ -53,18 +53,21 @@
 							</view>
 							<view class="f-row f-row-ipt">
 								<view class="user-input">
+									<uni-icons class="input-icon" type="xingming" size="18" color="#354e70"></uni-icons>
 									<input :class="['cruise-input',errTarget=='name'?'err-ipt':'']" type="text" @focus="removeErr" @blur="onBlur"
 									 v-model="formData['name']" placeholder="姓名" />
 								</view>
 							</view>
 							<view class="f-row f-row-ipt">
 								<view class="user-input">
+									<uni-icons class="input-icon" type="shoujihao" size="18" color="#354e70"></uni-icons>
 									<input :class="['cruise-input',errTarget=='phone'?'err-ipt':'']" type="text" @focus="removeErr" @blur="onBlur"
 									 v-model="formData['phone']" placeholder="手机号" />
 								</view>
 							</view>
 							<view class="f-row f-row-ipt">
 								<view class="user-input phone-code-ipt">
+									<uni-icons class="input-icon" type="yanzhengma3" size="18" color="#354e70"></uni-icons>
 									<input :class="['cruise-input','phone-code-input',errTarget=='code'?'err-ipt':'']" type="text" @focus="removeErr"
 									 @blur="onBlur" v-model="formData['code']" placeholder="验证码" />
 									<view :class="['cruise-input','phone-code',timer?'countdown':'']" @click="getPhoneCode">

@@ -144,8 +144,14 @@ page {
 .user-input .cruise-input {
 	padding: 30upx 0;
 	border-bottom: 1px solid #354e70;
+	position: relative;
+	text-indent: 50upx;
 }
-
+.input-icon{
+	position: absolute;
+	top:32%;
+	left: 30upx;
+}
 .f-row-code {
 	display: flex;
 	flex-direction: row;
