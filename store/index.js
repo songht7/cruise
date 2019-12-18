@@ -136,11 +136,8 @@ const store = new Vuex.Store({
 			ctx.state.isWeixin = _isWeixin;
 		},
 		getWXCode(ctx) {
-			var _this = this,
-				appid = ctx.state.interface.wxInfo.AppID;
-			var test_openid = Interface.wx.test_openid;
-			if (!_this.isWeixin() && test_openid == "") {
-				_this.goHomePage();
+			var appid = ctx.state.interface.wxInfo.AppID;
+			if (!ctx.state.isWeixin) {
 				return
 			}
 			var _uWXInfo = "";
@@ -155,7 +152,7 @@ const store = new Vuex.Store({
 					if (_uWXInfo && _uWXInfo.openid) {
 						var __openid = _uWXInfo.openid;
 					} else {
-						let redirect_uri = redirect_uri ? redirect_uri : Interface.domain;
+						let redirect_uri = ctx.state.interface.domain;
 						let REDIRECT_URI = encodeURIComponent(redirect_uri), //授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
 							scope = "snsapi_userinfo", //snsapi_base，snsapi_userinfo （弹出授权页面，获取更多信息）
 							state = "STATE"; //重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节

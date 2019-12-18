@@ -1,5 +1,5 @@
 <template>
-	<view class="content pages" :style="{'background-image':pageBg}">
+	<view :class="['content','pages',pageBg]">
 		<view class="page-main">
 			<block v-if="pageis=='bin'&&!getState">
 				<view class="bin-box opShow">
@@ -31,7 +31,7 @@
 							<view class="tk-sub-title">请领取您的专属礼遇</view>
 						</view>
 						<view class="ticket-model">
-							<img class="card-img" src="/static/card.png" alt="游轮">
+							<img class="card-img" src="../../static/card.png" alt="游轮">
 							<!-- <view class="tk-block ticket-price">200 €</view>
 						<view class="tk-block ticket-info">游轮消费抵用券</view> -->
 						</view>
@@ -188,13 +188,13 @@
 				var pageis = that.pageis;
 				switch (pageis) {
 					case 'bin':
-						return 'url("../../static/bg.jpg")';
+						return 'bg1';
 						break;
 					case 'ticket':
-						return 'url("../../static/bg2.jpg")';
+						return 'bg2';
 						break;
 					default:
-						return 'url("../../static/bg.jpg")';
+						return 'bg1)';
 						break;
 				}
 			}
