@@ -5,6 +5,10 @@ page {
 	color: #354e70;
 }
 
+.clr-green {
+	color: #00b4be;
+}
+
 @keyframes aniShow {
 	0% {
 		transform: scale(0);
@@ -43,9 +47,11 @@ page {
 	background: url("../../static/bg.jpg") no-repeat 50% 100%;
 	background-size: cover;
 }
-.bg2{
+
+.bg2 {
 	background-image: url("../../static/bg2.jpg");
 }
+
 .page-main {
 	width: 96%;
 	padding: 0 2%;
@@ -148,11 +154,13 @@ page {
 	position: relative;
 	text-indent: 50upx;
 }
-.input-icon{
+
+.input-icon {
 	position: absolute;
-	top:32%;
+	top: 32%;
 	left: 30upx;
 }
+
 .f-row-code {
 	display: flex;
 	flex-direction: row;

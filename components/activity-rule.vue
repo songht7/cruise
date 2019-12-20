@@ -7,7 +7,7 @@
 				<uni-icon type="closeempty" size="42" color="#666666"></uni-icon>
 			</view>
 		</view>
-		<view class="pop-main" :style="{'height':switchState?'800upx':'auto'}">
+		<view class="pop-main" style="height:auto">
 			<view class="intro-box">
 				<view class="intro-block">
 					<view class="intro-row"><text class="numb-li">1.</text><text>活动时间：即日起至2020年12月31日。</text></view>
