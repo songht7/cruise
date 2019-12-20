@@ -152,7 +152,7 @@
 				tempData: {}, //用于清空数据
 				errTarget: '',
 				errTip: '',
-				checkBin: '111111', //测试用bin码验证
+				checkBin: '111111', //测试用bin码验证,正式： 529782
 				getState: false //领取卡券状态
 			}
 		},
