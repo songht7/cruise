@@ -37,6 +37,7 @@
 						</view>
 						<view :class="['submit-btn','btn-big',getState?'btn-disabled':'']" @click="popSwitch('agreement')">{{getState?'已领取':'点击领取'}}</view>
 					</view>
+					<contact-us></contact-us>
 					<activity-rule></activity-rule>
 				</view>
 			</block>
@@ -106,6 +107,7 @@
 </template>
 
 <script>
+	import contactUs from '@/components/contact-us.vue'
 	import activityRule from '@/components/activity-rule.vue'
 	import uniPopup from '@/components/uni-popup.vue'
 	var graceChecker = require("@/common/graceChecker.js");
@@ -182,6 +184,7 @@
 			var that = this;
 		},
 		components: {
+			contactUs,
 			activityRule,
 			uniPopup
 		},

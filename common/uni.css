@@ -194,6 +194,12 @@
 	min-height: 100%;
 }
 
+.box-on-page {
+	background-color: rgba(255, 255, 255, .8);
+	border-radius: 15upx;
+	margin-bottom: 80upx;
+}
+
 .pop-main {
 	height: 600upx;
 	overflow-y: auto;
@@ -235,11 +241,38 @@
 	border-radius: 0 50% 50% 0;
 }
 
+.pop-title2:before {
+	content: "";
+	border-radius: none;
+	background: none;
+	width: 0;
+	height: 0;
+}
+
+.pop-title2:after {
+	content: "";
+	border-radius: none;
+	background: none;
+	width: 0;
+	height: 0;
+}
+
 .pop-close {
 	position: absolute;
 	top: 5upx;
 	right: 0;
 	z-index: 1;
+}
+
+.pop-switch {
+	color: #00b4be;
+	font-size: 28upx;
+	top: 0;
+	right: 20upx;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .pop-inner.agmt-pop {
